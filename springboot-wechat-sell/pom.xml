@@ -15,7 +15,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-<!-- 添加Spring io模块 -->
+	<!-- 添加Spring io模块 -->
 	<!-- 作用：解决依赖之间的版本问题，自动选择合适的版本，你就不需要制定版本号了 -->
 	<dependencyManagement>
 		<dependencies>
@@ -28,6 +28,13 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
 	<dependencies>
 
@@ -42,6 +49,14 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
+
+		<!-- sl4j日志框架的，小工具类。添加这个依赖后，就可以使用注解@Slf4j了，非常方便的-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+
 
 	</dependencies>
 </project>

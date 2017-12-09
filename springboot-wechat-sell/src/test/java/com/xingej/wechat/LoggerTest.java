@@ -13,4 +13,9 @@ public class LoggerTest extends BaseTest {
         logger.info("info-----");
         logger.error("--error----");
     }
+
+    @Test
+    public void testlog() {
+    }
+
 }
