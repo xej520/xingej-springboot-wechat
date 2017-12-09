@@ -25,6 +25,9 @@ public class LoggerTest extends BaseTest {
         // 推荐使用 下面的方式，进行输出
         // {}表示占位符的
         logger.info("name:{}, \ttype:\t{}", name, type);
+
+        logger.warn("name:{}, \ttype:\t{}", name, type);
+
     }
 
 }

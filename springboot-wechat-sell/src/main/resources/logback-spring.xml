@@ -18,6 +18,15 @@
 	<!-- 可以认为是配置项的名称，相当于ID，也就是唯一的 -->
 	<appender name="fileInfoLog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class = "ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			
+			<!-- 如果是匹配成功的话，就禁止掉 -->
+			<onMatch>DENY</onMatch>
+			
+			<!-- 如果没有匹配上的话，就接收 -->
+			<onMismatch>ACCEPT</onMismatch>
+		</filter>
 		<encoder>
 			<pattern>
 
@@ -37,6 +46,33 @@
 
 	</appender>
 
+<!-- 配置错误信息日志输出到文件的形式 -->
+	<appender name="fileErrorLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		
+		<filter class = "ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- 只输出ERROR级别的日志 -->
+			<level>ERROR</level>
+			
+		</filter>
+		
+		<encoder>
+			<pattern>
+				%d - %msg%n
+			</pattern>
+		</encoder>
+
+		<!-- 配置滚动 策略 根据时间进行滚动 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 日志路径 -->
+			<fileNamePattern>
+				E:\Project\xingej\xingej-spring-boot-wechat\springboot-wechat-sell\error.%d.log
+			</fileNamePattern>
+			<!-- 日志文件，保存的天数 -->
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+
+	</appender>
 
 	<!-- 配置项使用的范围是root, 也就是整个项目工程都使用的 -->
 	<!-- 日志级别 -->
@@ -44,6 +80,7 @@
 		<!-- 将上面定义的配置项，添加到这里，进行生效 -->
 		<appender-ref ref="consoleLog" />
 		<appender-ref ref="fileInfoLog" />
+		<appender-ref ref="fileErrorLog" />
 	</root>
 
 </configuration>
