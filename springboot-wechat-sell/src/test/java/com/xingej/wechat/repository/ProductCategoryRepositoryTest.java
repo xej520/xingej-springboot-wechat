@@ -1,5 +1,9 @@
 package com.xingej.wechat.repository;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +24,28 @@ public class ProductCategoryRepositoryTest extends BaseTest {
         productCategory.setCategoryType(2);
 
         pcRepository.saveAndFlush(productCategory);
+
+    }
+
+    @Test
+    public void testFindone() {
+
+        ProductCategory findOne = pcRepository.findOne(2);
+
+        System.out.println("--->:\t" + findOne.toString());
+
+    }
+
+    // 注意，这里使用的findByCategoryTypeIn
+    // 支持一次性查询多个
+    @Test
+    public void testFindByCategoryTypeIn() {
+        List<Integer> categoryTypeList = Arrays.asList(1, 2);
+
+        List<ProductCategory> result = pcRepository.findByCategoryType(categoryTypeList);
+
+        // 进行断言，期望的跟 实际的是否相等呢
+        Assert.assertEquals(2, result.size());
 
     }
 
