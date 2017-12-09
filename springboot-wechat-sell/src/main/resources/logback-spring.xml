@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configuration 属于终结符 -->
+<configuration>
+
+	<!-- appender 一个小小的配置项 -->
+	<!-- 定义的是，控制台的输出形式 -->
+	<appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>
+				%d - %msg%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<!-- 配置项使用的范围是root, 也就是整个项目工程都使用的 -->
+	<!-- 日志级别 -->
+	<root level="info">
+		<appender-ref ref ="consoleLog"/>
+
+	</root>
+
+</configuration>
+
