@@ -12,11 +12,38 @@
 		</layout>
 	</appender>
 
+	<!-- 定义一个配置项 -->
+	<!-- 配置文件输出形式 -->
+	<!-- 正常日志，存储到fileInfoLog日志里 -->
+	<!-- 可以认为是配置项的名称，相当于ID，也就是唯一的 -->
+	<appender name="fileInfoLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>
+
+				%d - %msg%n
+			</pattern>
+		</encoder>
+
+		<!-- 配置滚动 策略 根据时间进行滚动 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- 日志路径 -->
+			<fileNamePattern>
+				E:\Project\xingej\xingej-spring-boot-wechat\springboot-wechat-sell\info.%d.log
+			</fileNamePattern>
+			<!-- 日志文件，保存的天数 -->
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+
+	</appender>
+
+
 	<!-- 配置项使用的范围是root, 也就是整个项目工程都使用的 -->
 	<!-- 日志级别 -->
 	<root level="info">
-		<appender-ref ref ="consoleLog"/>
-
+		<!-- 将上面定义的配置项，添加到这里，进行生效 -->
+		<appender-ref ref="consoleLog" />
+		<appender-ref ref="fileInfoLog" />
 	</root>
 
 </configuration>
