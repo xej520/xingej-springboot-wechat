@@ -17,23 +17,15 @@
 	</properties>
 	<!-- 添加Spring io模块 -->
 	<!-- 作用：解决依赖之间的版本问题，自动选择合适的版本，你就不需要制定版本号了 -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.spring.platform</groupId>
-				<artifactId>platform-bom</artifactId>
-				<version>Brussels-SR5</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+	<!-- <dependencyManagement> <dependencies> <dependency> <groupId>io.spring.platform</groupId> 
+		<artifactId>platform-bom</artifactId> <version>Brussels-SR5</version> <type>pom</type> 
+		<scope>import</scope> </dependency> </dependencies> </dependencyManagement> -->
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+
 	</parent>
 
 	<dependencies>
@@ -56,13 +48,13 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
-	<!-- 数据库依赖，mysql驱动 -->
+		<!-- 数据库依赖，mysql驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		
-	<!-- 操作数据库的工具 -->
+
+		<!-- 操作数据库的工具 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
