@@ -1,6 +1,7 @@
 # xingej-spring-boot-wechat
 
 SQL语句(创建表)
+
 -- 类目
 create table `product_category` (
     `category_id` int not null auto_increment,
