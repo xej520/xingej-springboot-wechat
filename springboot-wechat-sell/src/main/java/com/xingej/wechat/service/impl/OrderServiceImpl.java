@@ -82,7 +82,9 @@ public class OrderServiceImpl implements OrderService {
 
         // 3、写入订单数据库(orderMaster 和 orderDetail)
         OrderMaster orderMaster = new OrderMaster();
+        // 一定要写设置orderId
         orderDTO.setOrderId(orderId);
+        // 然后，再拷贝属性，不然 使用 orderMaster.setOrderId(orderId); 时，设置的orderId 就是null
         BeanUtils.copyProperties(orderDTO, orderMaster);
         orderMaster.setOrderId(orderId);
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
