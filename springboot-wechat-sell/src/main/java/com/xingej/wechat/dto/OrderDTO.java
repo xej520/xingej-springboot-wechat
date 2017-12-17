@@ -8,6 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xingej.wechat.dataobject.OrderDetail;
 import com.xingej.wechat.utils.serializer.Date2LongSerializer;
 
+//此注解的作用，就是返回给页面的对象里，如果有属性为null的话，就不会返回给页面了
+// 如果整个对象是null的话，也就不返回了。
+// 这个属性，可以使用下面的注解，作为局部的配置
+// 也可以在配置文件里，进行全局的配置
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     /**
      * 订单id.
