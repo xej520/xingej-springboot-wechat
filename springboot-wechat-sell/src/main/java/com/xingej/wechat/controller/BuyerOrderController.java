@@ -102,5 +102,13 @@ public class BuyerOrderController {
     }
 
     // 取消订单
+    @PostMapping("/cancel")
+    public ResultVO cancel(@RequestParam("openid") String openid, @RequestParam("orderId") String orderId) {
+        // TODO 待改进
+        OrderDTO orderDTO = orderService.findOne(orderId);
 
+        orderService.cancel(orderDTO);
+
+        return ResultVOUtil.success();
+    }
 }
