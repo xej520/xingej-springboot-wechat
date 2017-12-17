@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.xingej.wechat.BaseTest;
 import com.xingej.wechat.dataobject.OrderDetail;
@@ -52,6 +54,20 @@ public class OrderServiceImplTest extends BaseTest {
         OrderDTO result = orderService.create(orderDTO);
         log.info("【创建订单】result={}", result);
         Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void findOne() throws Exception {
+        OrderDTO result = orderService.findOne(ORDERID);
+        log.info("【查询单个订单】result={}", result);
+        Assert.assertEquals(ORDERID, result.getOrderId());
+    }
+
+    @Test
+    public void findList() throws Exception {
+        PageRequest request = new PageRequest(0, 2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, request);
+        Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
     }
 
 }

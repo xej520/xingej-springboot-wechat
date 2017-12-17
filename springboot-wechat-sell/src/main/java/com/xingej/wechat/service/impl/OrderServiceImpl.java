@@ -8,10 +8,13 @@ import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import com.xingej.wechat.converter.OrderMaster2OrderDTOConverter;
 import com.xingej.wechat.dataobject.OrderDetail;
 import com.xingej.wechat.dataobject.OrderMaster;
 import com.xingej.wechat.dataobject.ProductInfo;
@@ -88,14 +91,36 @@ public class OrderServiceImpl implements OrderService {
         return orderDTO;
     }
 
+    // 查询单个订单
     @Override
     public OrderDTO findOne(String orderId) {
-        return null;
+
+        OrderMaster orderMaster = orderMasterRepository.findOne(orderId);
+        if (orderMaster == null) {
+            throw new SellException(ResultEnum.ORDER_NOT_EX);
+        }
+
+        List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
+        if (CollectionUtils.isEmpty(orderDetailList)) {
+            throw new SellException(ResultEnum.ORDERDETAIL_NOT_EXIST);
+        }
+
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderMaster, orderDTO);
+        orderDTO.setOrderDetailList(orderDetailList);
+
+        return orderDTO;
     }
 
+    // 查询订单的列表
     @Override
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
-        return null;
+        Page<OrderMaster> orderDTOPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
+
+        List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderDTOPage.getContent());
+        Page<OrderDTO> dtoPage = new PageImpl<OrderDTO>(orderDTOList, pageable, orderDTOPage.getTotalElements());
+
+        return dtoPage;
     }
 
     @Override
@@ -103,16 +128,19 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    // 去掉订单
     @Override
     public OrderDTO cancel(OrderDTO orderDTO) {
         return null;
     }
 
+    // 完成订单
     @Override
     public OrderDTO finish(OrderDTO orderDTO) {
         return null;
     }
 
+    // 支付订单
     @Override
     public OrderDTO paid(OrderDTO orderDTO) {
         return null;
