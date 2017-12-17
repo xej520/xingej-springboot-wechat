@@ -86,4 +86,13 @@ public class OrderServiceImplTest extends BaseTest {
         // result.getOrderStatus());
     }
 
+    @Test
+    public void paid() throws Exception {
+
+        OrderDTO orderDTO = orderService.findOne(ORDERID);
+        OrderDTO result = orderService.paid(orderDTO);
+        // Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(),
+        // result.getPayStatus());
+    }
+
 }
