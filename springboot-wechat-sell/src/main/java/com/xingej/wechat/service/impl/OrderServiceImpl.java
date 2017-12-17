@@ -180,9 +180,33 @@ public class OrderServiceImpl implements OrderService {
     }
 
     // 完成订单
+    // 订单状态是否完结
     @Override
     public OrderDTO finish(OrderDTO orderDTO) {
-        return null;
+
+        // 1、判断订单状态
+        // 如果订单状态不是新下单的话，就会报错的
+        if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+            log.error("【取消订单操作】 订单状态不正确 orderId={},orderStats={}", orderDTO.getOrderId(), orderDTO.getOrderStatus());
+            throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+        }
+
+        // 2、修改订单状态
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+        OrderMaster orderMaster = new OrderMaster();
+        // 进行对象的拷贝，注意
+        // 拷贝的时机要选对，不要一开始就拷贝
+        BeanUtils.copyProperties(orderDTO, orderMaster);
+
+        OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+
+        if (updateResult == null) {
+            log.error("取消完结失败,orderMaster={}", orderMaster);
+            throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+        }
+
+        // pushMessageService.orderStatus(orderDTO);
+        return orderDTO;
     }
 
     // 支付订单

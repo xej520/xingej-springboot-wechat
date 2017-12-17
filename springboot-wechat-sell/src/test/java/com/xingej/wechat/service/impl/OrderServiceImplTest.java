@@ -77,4 +77,13 @@ public class OrderServiceImplTest extends BaseTest {
         OrderDTO result = orderService.cancel(orderDTO);
     }
 
+    // 完成订单测试
+    @Test
+    public void finish() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDERID);
+        OrderDTO result = orderService.finish(orderDTO);
+        // Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(),
+        // result.getOrderStatus());
+    }
+
 }
