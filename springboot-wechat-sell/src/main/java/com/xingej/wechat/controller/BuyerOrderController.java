@@ -1,6 +1,7 @@
 package com.xingej.wechat.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -8,10 +9,15 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.xingej.wechat.converter.OrderForm2OrderDTOConverter;
@@ -65,6 +71,25 @@ public class BuyerOrderController {
     }
 
     // 订单列表
+    @GetMapping("/list")
+    // 请求的参数比较少，就没有创建 对象，进行表单验证，上面的API参数比较多，因此，创建了针对的
+    // 订单的表单验证
+    public ResultVO<List<OrderDTO>> list(@RequestParam("openid") String openid,
+            @RequestParam(value = "page", defaultValue = "0") Integer page, // 默认是第0页(也就是第一页)，每页显示10条
+            @RequestParam(value = "size", defaultValue = "10") Integer size) {
+
+        if (StringUtils.isEmpty(openid)) {
+            log.error("【查询订单列表】openid为空");
+            throw new SellException(ResultEnum.PARAM_ERROR);
+        }
+
+        PageRequest request = new PageRequest(page, size);
+
+        Page<OrderDTO> orderDTOList = orderService.findList(openid, request);
+
+        // 返回列表
+        return ResultVOUtil.success(orderDTOList.getContent());
+    }
 
     // 取消订单
 
