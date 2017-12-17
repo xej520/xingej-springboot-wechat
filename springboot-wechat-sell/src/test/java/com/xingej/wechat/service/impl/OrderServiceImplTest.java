@@ -70,4 +70,11 @@ public class OrderServiceImplTest extends BaseTest {
         Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
     }
 
+    // 取消订单测试
+    @Test
+    public void cancel() throws Exception {
+        OrderDTO orderDTO = orderService.findOne(ORDERID);
+        OrderDTO result = orderService.cancel(orderDTO);
+    }
+
 }

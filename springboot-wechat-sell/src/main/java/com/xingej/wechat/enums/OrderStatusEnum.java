@@ -7,7 +7,7 @@ package com.xingej.wechat.enums;
  * @author erjun 2017年12月16日 上午10:02:40
  */
 public enum OrderStatusEnum {
-    NEW(0, "新订单"), FINISHED(1, "完结"), cancel(2, "已取消");
+    NEW(0, "新订单"), FINISHED(1, "完结"), CANCEL(2, "已取消");
 
     private int code;
 
