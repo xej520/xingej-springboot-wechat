@@ -91,6 +91,16 @@ public class BuyerOrderController {
         return ResultVOUtil.success(orderDTOList.getContent());
     }
 
+    // 获取订单详情API
+    @GetMapping("detail")
+    public ResultVO<OrderDTO> detail(@RequestParam(value = "openid") String openid,
+            @RequestParam("orderId") String orderId) {
+        // TODO 不安全作为，待改进；由于其他人随便写个openid，就可以查询，不安全
+        OrderDTO orderDTO = orderService.findOne(orderId);
+
+        return ResultVOUtil.success(orderDTO);
+    }
+
     // 取消订单
 
 }
