@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xingej.wechat.dataobject.OrderDetail;
+import com.xingej.wechat.utils.serializer.Date2LongSerializer;
 
 public class OrderDTO {
     /**
@@ -50,11 +52,16 @@ public class OrderDTO {
     /**
      * 创建时间.
      */
+    // 这个注解的作用，就是对这个属性createTime 使用Date2LongSerializer对象
+    // 将这个值，自动除以1000， 也就是，单位转换，由毫秒，转为了秒
+    // 不需要业务代码里，再做这个事情了。
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     /**
      * 更新时间.
      */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     private List<OrderDetail> orderDetailList;
