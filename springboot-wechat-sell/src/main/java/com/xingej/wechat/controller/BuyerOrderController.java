@@ -25,6 +25,7 @@ import com.xingej.wechat.dto.OrderDTO;
 import com.xingej.wechat.enums.ResultEnum;
 import com.xingej.wechat.exception.SellException;
 import com.xingej.wechat.form.OrderForm;
+import com.xingej.wechat.service.BuyerService;
 import com.xingej.wechat.service.OrderService;
 import com.xingej.wechat.utils.ResultVOUtil;
 import com.xingej.wechat.vo.ResultVO;
@@ -41,8 +42,8 @@ public class BuyerOrderController {
     @Autowired
     private OrderService orderService;
 
-    // @Autowired
-    // private BuyerService buyerService;
+    @Autowired
+    private BuyerService buyerService;
 
     // 创建订单
     @PostMapping(value = "/create")
@@ -95,8 +96,13 @@ public class BuyerOrderController {
     @GetMapping("detail")
     public ResultVO<OrderDTO> detail(@RequestParam(value = "openid") String openid,
             @RequestParam("orderId") String orderId) {
-        // TODO 不安全作为，待改进；由于其他人随便写个openid，就可以查询，不安全
-        OrderDTO orderDTO = orderService.findOne(orderId);
+
+        if (StringUtils.isEmpty(openid) || StringUtils.isEmpty(orderId)) {
+            log.error("【查询订单列表】openid为空");
+            throw new SellException(ResultEnum.PARAM_ERROR);
+        }
+
+        OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
 
         return ResultVOUtil.success(orderDTO);
     }
@@ -104,10 +110,14 @@ public class BuyerOrderController {
     // 取消订单
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid, @RequestParam("orderId") String orderId) {
-        // TODO 待改进
-        OrderDTO orderDTO = orderService.findOne(orderId);
+        // TODO 验证订单是否为自己的
 
-        orderService.cancel(orderDTO);
+        if (StringUtils.isEmpty(openid) || StringUtils.isEmpty(orderId)) {
+            log.error("【查询订单列表】openid为空");
+            throw new SellException(ResultEnum.PARAM_ERROR);
+        }
+
+        buyerService.cancelOrder(openid, orderId);
 
         return ResultVOUtil.success();
     }
