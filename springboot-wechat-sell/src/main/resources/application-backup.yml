@@ -7,6 +7,9 @@ spring:
   jpa:
     show-sql: true
     generate-ddl: true
+  jackson:
+    default-property-inclusion: non-null
+    
 server:
   context-path: /wechat    
   port: 8089
